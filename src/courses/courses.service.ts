@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Course } from './entities/courses.entity';
 
 @Injectable()//para configurar a injeção de dependência
@@ -16,8 +16,15 @@ export class CoursesService {
         return this.courses;//para retornar todos os registros do courses
     }
 
-    findOne(id: string) {//para procurar um id igual o que for passado no método, porém aqui o id é uma string e o id de courses é um number
-        return this.courses.find((course: Course) => course.id == Number(id))//operação de busca, efetuada conversão de id string para number
+    // findOne(id: string) {//para procurar um id igual o que for passado no método, porém aqui o id é uma string e o id de courses é um number
+    //     return this.courses.find((course: Course) => course.id == Number(id))//operação de busca, efetuada conversão de id string para number
+    // }
+
+    findOne(id: string) {
+        const course = this.courses.find((course: Course) => course.id == Number(id))//adicionando a uma constante para lançar ao usuário caso ele encontrou algo ou não
+        if(!course){//se não encontrou o course
+            throw new HttpException(`Course ID ${id} not found`, HttpStatus.NOT_FOUND);//informar o ID não encontrado e o http 404
+        }
     }
 
     create(createCourseDto: any) {//data transfer object para criação e atualização
