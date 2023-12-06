@@ -25,10 +25,12 @@ export class CoursesService {
         if(!course){//se não encontrou o course
             throw new HttpException(`Course ID ${id} not found`, HttpStatus.NOT_FOUND);//informar o ID não encontrado e o http 404
         }
+        return course;
     }
 
     create(createCourseDto: any) {//data transfer object para criação e atualização
         this.courses.push(createCourseDto);//push incluir no array a estrutura enviada
+        return createCourseDto;//para devolver o que está sendo repassado na requisição
     }
 
     update(id: string, updateCourseDTO: any) {//id e informações a serem atualizadas

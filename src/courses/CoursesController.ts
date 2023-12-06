@@ -1,5 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CoursesService } from './courses.service';
+import { CreateCourseDto } from './dto/create-courses.dto/create-course.dto';
+import { UpdateCourseDto } from './dto/update-course.dto/update-course.dto';
 
 
 @Controller('courses') //endpoint da controller igual no java
@@ -53,8 +55,8 @@ export class CoursesController {
 
     //terceira versão
     @Post()
-    create(@Body() body) {
-        return this.coursesService.create(body);//responsável por criar o objeto
+    create(@Body() createCourseDto: CreateCourseDto) {
+        return this.coursesService.create(createCourseDto);//responsável por criar o objeto
     }
 
     //Método para atualização
@@ -65,8 +67,8 @@ export class CoursesController {
 
     //segunda versão
     @Patch(':id')
-    update(@Param('id') id: string, @Body() body) {
-        return this.coursesService.update(id, body);//passando o id a ser atualizado e o novo body/corpo da requisição
+    update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
+        return this.coursesService.update(id, updateCourseDto);//passando o id a ser atualizado e o novo body/corpo da requisição
     }
 
 
